@@ -11,6 +11,8 @@ import TodoCard from "./components/TodoCard.js";
 import { useDispatch, useSelector } from "react-redux";
 import { todo } from "./types/type.js";
 import { addTodo } from "./redux/todoSlice.js";
+// @ts-ignore
+import useCommands from "./hooks/useCommands.js";
 
 export default function App() {
    // @ts-ignore
@@ -24,7 +26,6 @@ export default function App() {
    // @ts-ignore
    function handleSubmit(e) {
       e.preventDefault();
-      console.log("submitted");
       if (input.trim().length) {
          dispatch(
             addTodo({ id: Date.now(), text: input, completed: false })
@@ -44,8 +45,9 @@ export default function App() {
    useEffect(() => {
       if (transcript && !isListening) {
          setInput(`${input} ${transcript}`);
+         useCommands(transcript.toLowerCase());
       }
-   }, [isListening, transcript]);
+   }, [transcript, isListening]);
    return (
       <main className="dark:bg-slate-800 grid grid-cols-[1fr_2fr_1fr]">
          <Container></Container>
