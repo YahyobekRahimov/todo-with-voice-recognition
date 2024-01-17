@@ -44,7 +44,7 @@ export default function App() {
    useEffect(() => {
       if (transcript && !isListening) {
          setInput(`${input} ${transcript}`);
-         useCommands(transcript.toLowerCase());
+         // useCommands(transcript.toLowerCase());
       }
    }, [transcript, isListening]);
    return (
