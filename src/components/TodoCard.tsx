@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 // @ts-ignore
 import DeleteIcon from "../assets/svg/delete.svg?react";
 import { useState } from "react";
-import { todo } from "../types/type";
 import { deleteTodo, reverseCompleted } from "../redux/todoSlice";
 
 export default function TodoCard({

@@ -19,8 +19,7 @@ export default function App() {
    const todos = useSelector((state) => state.todoSlice);
    const dispatch = useDispatch();
    const [input, setInput] = useState("");
-   const { start, stop, transcript, isListening } =
-      useSpeechRecognition();
+   const { start, transcript, isListening } = useSpeechRecognition();
 
    // * Functions
    // @ts-ignore
