@@ -7,9 +7,4 @@ const store = configureStore({
    },
 });
 
-// @ts-ignore
-const subscribe = store.subscribe((e) => {
-   console.log(e);
-});
-
 export default store;

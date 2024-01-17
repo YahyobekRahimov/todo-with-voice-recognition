@@ -20,7 +20,10 @@ export default function useSpeechRecognition() {
    });
 
    recognition.addEventListener("result", function (event) {
-      setTranscript(event);
+      const currentTranscript = Array.from(event.results)
+         .map((result) => result[0].transcript)
+         .join("");
+      setTranscript(currentTranscript);
    });
 
    function start() {

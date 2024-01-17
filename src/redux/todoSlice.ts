@@ -22,7 +22,7 @@ const todoSlice = createSlice({
          return state;
       },
       deleteTodo: (state: todos, { payload }) => {
-         state.filter((todo: todo) => todo.id != payload);
+         state = state.filter((todo: todo) => todo.id != payload);
          return state;
       },
       reverseCompleted: (state: todos, { payload }) => {
