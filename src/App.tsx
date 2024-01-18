@@ -10,9 +10,10 @@ import { useEffect, useState } from "react";
 import TodoCard from "./components/TodoCard.js";
 import { useDispatch, useSelector } from "react-redux";
 import { todo } from "./types/type.js";
-import { addTodo } from "./redux/todoSlice.js";
+import { addTodo, deleteTodo } from "./redux/todoSlice.js";
 // @ts-ignore
 import useCommands from "./hooks/useCommands.js";
+import { reverseCompleted } from "./redux/todoSlice.js";
 
 export default function App() {
    // @ts-ignore
@@ -44,7 +45,54 @@ export default function App() {
    useEffect(() => {
       if (transcript && !isListening) {
          setInput(`${input} ${transcript}`);
-         // useCommands(transcript.toLowerCase());
+         const commandIndex = useCommands(transcript.toLowerCase());
+         let text: string, id: number, index: number;
+         switch (commandIndex) {
+            case 0:
+               text = transcript
+                  .slice(transcript.indexOf("do") + 1)
+                  .trim();
+               dispatch(
+                  addTodo({ id: Date.now(), text, completed: false })
+               );
+               break;
+            case 1:
+               id = transcript
+                  .slice(transcript.indexOf("do") + 1)
+                  .trim();
+               dispatch(deleteTodo(id));
+               break;
+            case 2:
+               text = transcript
+                  .slice(
+                     transcript.indexOf("as"),
+                     transcript.indexOf("u")
+                  )
+                  .trim();
+               index = todos.findIndex(
+                  (todo: todo) => todo.text == text
+               );
+               if (todos[index].completed) {
+                  dispatch(reverseCompleted(todos[index].id));
+               }
+               break;
+            case 3:
+               text = transcript
+                  .slice(
+                     transcript.indexOf("as"),
+                     transcript.indexOf("c")
+                  )
+                  .trim();
+               index = todos.findIndex(
+                  (todo: todo) => todo.text == text
+               );
+               if (!todos[index].completed) {
+                  dispatch(reverseCompleted(todos[index].id));
+               }
+               break;
+            default:
+               break;
+         }
       }
    }, [transcript, isListening]);
    return (
