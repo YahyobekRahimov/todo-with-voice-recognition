@@ -87,10 +87,13 @@ export default function App() {
             case 2:
                id = transcript
                   .slice(
-                     transcript.indexOf("as"),
-                     transcript.indexOf("u")
+                     transcript.indexOf("do") + 2,
+                     transcript.indexOf("as")
                   )
                   .trim();
+               if (isNaN(id)) {
+                  id = fromWordsToNumber(id);
+               }
                index = todos.findIndex((todo: todo) => todo.id == id);
                if (todos[index]?.completed) {
                   dispatch(reverseCompleted(id));
@@ -99,18 +102,22 @@ export default function App() {
             case 3:
                id = transcript
                   .slice(
-                     transcript.indexOf("as"),
-                     transcript.indexOf("c")
+                     transcript.indexOf("do") + 2,
+                     transcript.indexOf("as")
                   )
                   .trim();
+               if (isNaN(id)) {
+                  id = fromWordsToNumber(id);
+               }
                index = todos.findIndex((todo: todo) => todo.id == id);
                if (!todos[index]?.completed) {
                   dispatch(reverseCompleted(id));
                }
                break;
             default:
-               break;
+               return;
          }
+         setInput("");
       }
    }, [transcript, isListening]);
    return (
@@ -156,10 +163,10 @@ export default function App() {
                   <b>Create to-do </b>[<i>Name of the to-do</i>]
                </li>
                <li className="text-[1.15rem]">
-                  <b>Delete to-do </b>[<i>Name of the to-do</i>]
+                  <b>Delete to-do </b>[<i>ID of the to-do</i>]
                </li>
                <li className="text-[1.15rem]">
-                  <b>Mark </b>[<i>Name of the to-do</i>]{" "}
+                  <b>Mark </b>[<i>ID of the to-do</i>]{" "}
                   <b>as completed/uncompleted</b>
                </li>
             </ol>
