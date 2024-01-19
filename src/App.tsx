@@ -16,6 +16,7 @@ import useCommands from "./hooks/useCommands.js";
 import { reverseCompleted } from "./redux/todoSlice.js";
 
 export default function App() {
+   const [counter, setCounter] = useState(0);
    // @ts-ignore
    const todos = useSelector((state) => state.todoSlice);
    const dispatch = useDispatch();
@@ -28,8 +29,9 @@ export default function App() {
       e.preventDefault();
       if (input.trim().length) {
          dispatch(
-            addTodo({ id: Date.now(), text: input, completed: false })
+            addTodo({ id: counter, text: input, completed: false })
          );
+         setCounter((prev) => prev + 1);
          setInput("");
       }
    }
@@ -42,6 +44,21 @@ export default function App() {
          start();
       }
    }
+   function fromWordsToNumber(num) {
+      let obj = {
+         "one": 1,
+         "two": 2,
+         "three": 3,
+         "four": 4,
+         "five": 5,
+         "six": 6,
+         "seven": 7,
+         "eight": 8,
+         "nine": 9,
+         "ten": 10,
+      };
+      return obj[num];
+   }
    useEffect(() => {
       if (transcript && !isListening) {
          setInput(`${input} ${transcript}`);
@@ -50,44 +67,44 @@ export default function App() {
          switch (commandIndex) {
             case 0:
                text = transcript
-                  .slice(transcript.indexOf("do") + 1)
+                  .slice(transcript.indexOf("do") + 2)
                   .trim();
                dispatch(
-                  addTodo({ id: Date.now(), text, completed: false })
+                  addTodo({ id: counter, text, completed: false })
                );
+               setCounter((prev) => prev + 1);
                break;
             case 1:
                id = transcript
-                  .slice(transcript.indexOf("do") + 1)
+                  .slice(transcript.indexOf("do") + 2)
                   .trim();
+               if (isNaN(id)) {
+                  id = fromWordsToNumber(id);
+               }
                dispatch(deleteTodo(id));
                break;
             case 2:
-               text = transcript
+               id = transcript
                   .slice(
                      transcript.indexOf("as"),
                      transcript.indexOf("u")
                   )
                   .trim();
-               index = todos.findIndex(
-                  (todo: todo) => todo.text == text
-               );
-               if (todos[index].completed) {
-                  dispatch(reverseCompleted(todos[index].id));
+               index = todos.findIndex((todo: todo) => todo.id == id);
+               if (todos[index]?.completed) {
+                  dispatch(reverseCompleted(id));
                }
                break;
             case 3:
-               text = transcript
+               id = transcript
                   .slice(
                      transcript.indexOf("as"),
                      transcript.indexOf("c")
                   )
                   .trim();
-               index = todos.findIndex(
-                  (todo: todo) => todo.text == text
-               );
-               if (!todos[index].completed) {
-                  dispatch(reverseCompleted(todos[index].id));
+               index = todos.findIndex((todo: todo) => todo.id == id);
+               if (!todos[index]?.completed) {
+                  dispatch(reverseCompleted(id));
                }
                break;
             default:
@@ -116,7 +133,7 @@ export default function App() {
                         className={`${
                            isListening
                               ? "stroke-red-500"
-                              : "stroke-slate-900"
+                              : "stroke-slate-900 dark:stroke-slate-50"
                         }`}
                      />
                   </button>

@@ -39,7 +39,7 @@ export default function TodoCard({
    }
    return (
       <div className="p-5 bg-blue-300 rounded-lg">
-         <label className="label cursor-pointer grid grid-cols-[0.1fr_5fr_1fr] items-center justify-items-center gap-10">
+         <label className="relative label cursor-pointer grid grid-cols-[0.1fr_5fr_1fr] items-center justify-items-center gap-10">
             <input
                type="checkbox"
                className="checkbox checkbox-primary checkbox-lg"
@@ -53,6 +53,9 @@ export default function TodoCard({
             >
                <DeleteIcon />
             </button>
+            <span className="absolute top-[-1rem] left-0">
+               ID: {currentTodo.id}
+            </span>
          </label>
       </div>
    );

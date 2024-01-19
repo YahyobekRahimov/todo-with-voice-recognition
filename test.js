@@ -1,2 +1,5 @@
-const something = "Hello world!";
-console.log(something.toLowerCase().includes("hello"));
+let obj = {
+   "something": true,
+};
+
+console.log(obj["something"]);
