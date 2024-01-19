@@ -44,8 +44,8 @@ export default function App() {
          start();
       }
    }
-   function fromWordsToNumber(num) {
-      let obj = {
+   function fromWordsToNumber(num: number) {
+      let obj: any = {
          "one": 1,
          "two": 2,
          "three": 3,
@@ -57,6 +57,7 @@ export default function App() {
          "nine": 9,
          "ten": 10,
       };
+
       return obj[num];
    }
    useEffect(() => {
